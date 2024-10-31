@@ -1,0 +1,51 @@
+services:
+    kickstart:
+        image: "alpine:latest"
+        container_name: kickstart
+        stdin_open: true
+        tty: true
+        working_dir: /root
+        command: /bin/sh
+        environment:
+            - TERM=xterm-256color
+        entrypoint: >
+            sh -c "apk add git gcc make unzip ripgrep neovim neovim-doc curl build-base --update && if [ ! -d "/root/.config/nvim" ]; then git clone https://github.com/dam9000/kickstart-modular.nvim.git /root/.config/nvim; fi && /bin/sh"
+    nvchad:
+        image: "alpine:latest"
+        container_name: nvchad
+        stdin_open: true
+        tty: true
+        working_dir: /root
+        command: /bin/sh
+        environment:
+            - TERM=xterm-256color
+        entrypoint: >
+            sh -c "apk add git gcc nodejs make unzip ripgrep neovim neovim-doc curl build-base --update && if [ ! -d "/root/.config/nvim" ]; then git clone https://github.com/NvChad/starter ~/.config/nvim; fi && /bin/sh"
+    ubuntu:
+        image: "ubuntu:latest"
+        container_name: ubuntu
+        stdin_open: true
+        tty: true
+        working_dir: /root
+        command: /bin/sh
+        environment:
+            - TERM=xterm-256color
+        entrypoint: >
+            sh -c "
+            apt update && 
+            apt install -y git gcc nodejs make unzip ripgrep curl build-essential &&
+            curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz &&
+            rm -rf /opt/nvim && 
+            tar -C /opt -xzf nvim-linux64.tar.gz &&
+            if [ ! -d "/root/.config/nvim" ]; then git clone https://github.com/Gabones/nvim_config.git ~/.config/nvim; fi &&
+            /bin/sh"
+
+    # After Install
+    
+    # configurar nvim como variavel de ambiente
+    # export PATH="$PATH:/opt/nvim-linux64/bin"
+    
+    # Instalar e configurar o rust
+    # curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    # source $HOME/.cargo/env
+    # . "$HOME/.cargo/env"
