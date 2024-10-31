@@ -39,7 +39,13 @@ services:
             tar -C /opt -xzf nvim-linux64.tar.gz &&
             if [ ! -d "/root/.config/nvim" ]; then git clone https://github.com/Gabones/nvim_config.git ~/.config/nvim; fi &&
             /bin/sh"
-
+    debian:
+        build:
+          context: .  # O Dockerfile está na mesma pasta
+        container_name: debian
+        stdin_open: true
+        tty: true
+    
     # After Install
     
     # configurar nvim como variavel de ambiente
